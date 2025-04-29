@@ -61,7 +61,7 @@ export const verifySession = async (req: Request, res: Response) => {
   if (req.session.user) {
     return res.status(200).json({ success: true, user: req.session.user });
   }
-  return res.status(401).json({ error: "Unauthorized" });
+  return res.status(401).json({ success: false, error: "Unauthorized" });
 };
 
 export const logout = async (req: Request, res: Response) => {
