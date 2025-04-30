@@ -44,6 +44,7 @@ export const messageHandler = (socket: Socket) => {
       content: message.content,
       role: "user",
       createdAt: chatAndMessage.message.createdAt,
+      chatUuid: chatAndMessage.chat._id,
     });
 
     for await (const chunk of aiResponse.stream) {
