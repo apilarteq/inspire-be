@@ -9,13 +9,13 @@ export interface SocketChatMessageRequest extends SocketRequestMessage {
 
 export interface SocketReturnMessage {
   content: string;
-  role: "user" | "assistant";
+  role: "user" | "model";
 }
 
 export interface ModelMessage {
   _id: string;
   content: string;
-  role: "user" | "assistant";
+  role: "user" | "model";
   createdAt?: Date;
 }
 

@@ -1,6 +1,9 @@
 import { Socket } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
-import { generateAiStreamedResponse } from "../../services/ai.service";
+import {
+  generateStreamedResponse,
+  generateStreamedResponseWithTitle,
+} from "../../services/ai.service";
 import { chatService } from "../../services/chat.service";
 import handleSocketOperation from "./error-handler";
 import {
@@ -18,7 +21,7 @@ export const messageHandler = (socket: Socket) => {
     const aiResponse = await handleSocketOperation(
       socket,
       "Error al generar la respuesta",
-      generateAiStreamedResponse(message.content, (value) => {
+      generateStreamedResponseWithTitle(message.content, (value) => {
         title = value;
       })
     );
@@ -29,7 +32,7 @@ export const messageHandler = (socket: Socket) => {
       socket,
       "Error al crear el chat",
       chatService.createAndAddMessage({
-        title: "",
+        title,
         sessionId: socket.request.sessionID,
         visitorId: message.visitorId,
         userId: socket.request.session.user.uuid,
@@ -50,7 +53,7 @@ export const messageHandler = (socket: Socket) => {
     for await (const chunk of aiResponse.stream) {
       socket.emit("streamed-message", {
         content: chunk,
-        role: "assistant",
+        role: "model",
         _id: streamedMessageUuid,
         isFirstChunk: counter === 0,
       });
@@ -63,7 +66,7 @@ export const messageHandler = (socket: Socket) => {
       "Error al guardar el mensaje",
       chatService.addMessageToChat({
         chatUuid: chatAndMessage.chat._id,
-        message: { content: fullResponse, role: "assistant" },
+        message: { content: fullResponse, role: "model" },
       })
     );
 
@@ -105,7 +108,7 @@ export const messageHandler = (socket: Socket) => {
     const aiResponse = await handleSocketOperation(
       socket,
       "Error al generar la respuesta",
-      generateAiStreamedResponse(message.content)
+      generateStreamedResponse(message.content, message.chatUuid)
     );
 
     if (!aiResponse) return;
@@ -113,7 +116,7 @@ export const messageHandler = (socket: Socket) => {
     for await (const chunk of aiResponse.stream) {
       socket.emit("streamed-message", {
         content: chunk,
-        role: "assistant",
+        role: "model",
         _id: streamedMessageUuid,
         isFirstChunk: counter === 0,
       });
@@ -126,7 +129,7 @@ export const messageHandler = (socket: Socket) => {
       "Error al guardar el mensaje",
       chatService.addMessageToChat({
         chatUuid: message.chatUuid,
-        message: { content: fullResponse, role: "assistant" },
+        message: { content: fullResponse, role: "model" },
       })
     );
 
