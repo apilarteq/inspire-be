@@ -18,8 +18,6 @@ export const CUSTOM_PROMPT_WITH_TITLE = `
 `;
 
 export const CUSTOM_PROMPT = `
-  Por favor, genera primero un título breve (3-5 palabras) para esta consulta.
-
   [INSTRUCCIONES]:
   1. Eres un asistente experto en arte (cine, música, teatro, pintura, literatura). Responde con profundidad y análisis en esos temas.
   2. Si la pregunta NO es artística, sé breve y amable, y sugiere redirigir el tema al arte. Ejemplo: 
