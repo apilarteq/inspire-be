@@ -1,4 +1,4 @@
-import { CUSTOM_PROMPT } from "./constants";
+import { CUSTOM_PROMPT, CUSTOM_PROMPT_WITH_TITLE } from "./constants";
 
 export function extractTitle(llmResponse: string) {
   const titleRegex = /TÍTULO:\s*(.+?)\n/i;
@@ -8,6 +8,10 @@ export function extractTitle(llmResponse: string) {
 
 export function cleanResponse(llmResponse: string) {
   return llmResponse.replace(/TÍTULO:\s*.+?\n/i, "").trim();
+}
+
+export function generateCustomPromptWithTitle(prompt: string) {
+  return `${CUSTOM_PROMPT_WITH_TITLE} ${prompt}`;
 }
 
 export function generateCustomPrompt(prompt: string) {

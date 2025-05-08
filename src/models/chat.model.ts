@@ -24,7 +24,7 @@ const chatSchema = new Schema<ModelChat>(
           required: true,
         },
         content: { type: String, required: true },
-        role: { type: String, enum: ["user", "assistant"], required: true },
+        role: { type: String, enum: ["user", "model"], required: true },
         createdAt: { type: Date, default: Date.now },
       },
     ],

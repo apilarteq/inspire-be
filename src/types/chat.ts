@@ -10,7 +10,7 @@ export interface CreateChatDto {
 
 interface Message {
   content: string;
-  role: "user" | "assistant";
+  role: "user" | "model";
 }
 
 export interface CreateChatWithMessagesDto extends CreateChatDto {
