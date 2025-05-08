@@ -67,7 +67,7 @@ export const deleteChat = async (req: Request, res: Response) => {
     const uuid = req.params.uuid;
 
     if (!uuid) {
-      return res.status(400).json({ error: "Invalid uuid" });
+      return res.status(400).json({ error: "UUID is required" });
     }
 
     await chatService.deleteChat(uuid);
