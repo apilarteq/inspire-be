@@ -101,6 +101,10 @@ export const chatService = {
   },
 
   async deleteChat(uuid: string): Promise<void> {
-    await Chat.deleteOne({ _id: uuid });
+    const { deletedCount } = await Chat.deleteOne({ _id: uuid });
+
+    if (deletedCount === 0) {
+      throw new AppError("Chat not found");
+    }
   },
 };

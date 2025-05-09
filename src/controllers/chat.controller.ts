@@ -8,7 +8,9 @@ export const getChats = async (req: Request, res: Response) => {
     const chats = await chatService.getChatsByUser(uuid);
     return res.status(200).json({ success: true, data: chats });
   } catch (error) {
-    return res.status(500).json({ error: "Error getting chats" });
+    return res
+      .status(500)
+      .json({ error: "Error getting chats", success: false });
   }
 };
 
@@ -21,9 +23,12 @@ export const getGroupedChats = async (req: Request, res: Response) => {
     const chats = await chatService.getGroupedChatsByUser(
       req.session.user.uuid
     );
+
     return res.status(200).json({ success: true, data: chats });
   } catch (error) {
-    return res.status(500).json({ error: "Error getting grouped chats" });
+    return res
+      .status(500)
+      .json({ error: "Error getting grouped chats", success: false });
   }
 };
 
@@ -38,7 +43,9 @@ export const getChatByUuid = async (req: Request, res: Response) => {
     const chat = await chatService.getChatByUuid(uuid);
     return res.status(200).json({ success: true, data: chat });
   } catch (error) {
-    return res.status(500).json({ error: "Error getting chat" });
+    return res
+      .status(500)
+      .json({ error: "Error getting chat", success: false });
   }
 };
 
@@ -58,7 +65,9 @@ export const updateChatTitle = async (req: Request, res: Response) => {
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(500).json({ error: "Error updating chat title" });
+    return res
+      .status(500)
+      .json({ error: "Error updating chat title", success: false });
   }
 };
 
@@ -73,6 +82,8 @@ export const deleteChat = async (req: Request, res: Response) => {
     await chatService.deleteChat(uuid);
     return res.status(200).json({ success: true });
   } catch (error) {
-    return res.status(500).json({ error: "Error deleting chat" });
+    return res
+      .status(500)
+      .json({ error: "Error deleting chat", success: false });
   }
 };
