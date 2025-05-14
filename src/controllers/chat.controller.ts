@@ -49,6 +49,25 @@ export const getChatByUuid = async (req: Request, res: Response) => {
   }
 };
 
+export const searchChats = async (req: Request, res: Response) => {
+  try {
+    const searchTerm = req.query.searchTerm as string;
+
+    if (!searchTerm) {
+      return res.status(400).json({ error: "Search term is required" });
+    }
+
+    const chats = await chatService.searchChats(searchTerm);
+
+    return res.status(200).json({ success: true, data: chats });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ error: "Error searching chats", success: false });
+  }
+};
+
 export const updateChatTitle = async (req: Request, res: Response) => {
   try {
     const { title } = req.body;

@@ -4,6 +4,7 @@ import {
   getChatByUuid,
   getChats,
   getGroupedChats,
+  searchChats,
   updateChatTitle,
 } from "../controllers/chat.controller";
 import { isAuthenticated } from "../middlewares/auth";
@@ -18,6 +19,10 @@ router.get("/", (req: Request, res: Response) => {
 
 router.get("/grouped", (req: Request, res: Response) => {
   getGroupedChats(req, res);
+});
+
+router.get("/search", (req: Request, res: Response) => {
+  searchChats(req, res);
 });
 
 router.get("/:uuid", (req: Request, res: Response) => {

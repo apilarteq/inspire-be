@@ -86,7 +86,7 @@ export const generateStreamedResponse = async (
       _id: chatUuid,
     }).select("messages");
 
-    chatHistory?.messages.forEach((message) => {
+    chatHistory?.messages!.forEach((message) => {
       const part =
         message.role === "user"
           ? message.content
