@@ -27,16 +27,19 @@ export interface UpdateChatArgs {
   title: string;
 }
 
-export interface ModelChat extends Document {
+export interface Chat {
   _id: string;
   title?: string;
   sessionId?: string;
   visitorId?: string;
   userId?: string;
-  messages: ModelMessage[];
+  messages?: ModelMessage[];
+  message?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export type ModelChat = Document & Chat;
 
 export interface ChatResponse {
   status: "success" | "error";
@@ -46,7 +49,7 @@ export interface ChatResponse {
 
 export interface GroupedChats {
   date: string;
-  chats: ModelChat[];
+  chats: Chat[];
 }
 
 export interface ChatAndMessageResponse {

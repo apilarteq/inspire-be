@@ -35,7 +35,7 @@ export const messageHandler = (socket: Socket) => {
         title,
         sessionId: socket.request.sessionID,
         visitorId: message.visitorId,
-        userId: socket.request.session.user.uuid,
+        userId: socket.request.session?.user?.uuid,
         messages: [{ content: message.content, role: "user" }],
       })
     );

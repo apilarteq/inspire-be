@@ -86,7 +86,7 @@ export const generateStreamedResponse = async (
       _id: chatUuid,
     }).select("messages");
 
-    chatHistory?.messages.forEach((message) => {
+    chatHistory?.messages!.forEach((message) => {
       const part =
         message.role === "user"
           ? message.content
@@ -100,9 +100,9 @@ export const generateStreamedResponse = async (
 
     const chat = model.startChat({
       history: messages,
-      generationConfig: {
-        maxOutputTokens: 100,
-      },
+      // generationConfig: {
+      //   maxOutputTokens: 100,
+      // },
     });
 
     const result = await chat.sendMessageStream(generateCustomPrompt(prompt));

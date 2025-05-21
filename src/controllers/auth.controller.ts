@@ -7,9 +7,9 @@ export const login = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, password } = req.body;
+  const { username, password, remember } = req.body;
 
-  if (!username || !password) {
+  if (!username || !password || typeof remember !== "boolean") {
     return res
       .status(400)
       .json({ error: "Username and password are required" });
@@ -22,8 +22,13 @@ export const login = async (
       username,
     };
     req.session.user = userSession;
+    if (remember) {
+      req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 days
+    } else {
+      req.session.cookie.expires = undefined;
+      req.session.cookie.maxAge = undefined;
+    }
     req.session.save();
-    // res.cookie("token", "awd", { httpOnly: true });
     return res.status(200).json({ success: true });
   } catch (error) {
     next(error);
