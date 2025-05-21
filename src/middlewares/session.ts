@@ -18,7 +18,6 @@ export default session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === "production",
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 días
     httpOnly: true,
     sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
   },
