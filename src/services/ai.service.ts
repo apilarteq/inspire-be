@@ -100,9 +100,9 @@ export const generateStreamedResponse = async (
 
     const chat = model.startChat({
       history: messages,
-      generationConfig: {
-        maxOutputTokens: 100,
-      },
+      // generationConfig: {
+      //   maxOutputTokens: 100,
+      // },
     });
 
     const result = await chat.sendMessageStream(generateCustomPrompt(prompt));
