@@ -6,4 +6,5 @@ export const config = {
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   sessionSecret: process.env.SESSION_SECRET || "",
   mongoUri: process.env.MONGODB_URI || "",
+  prodFrontendUrl: process.env.PROD_FRONTEND_URL || "",
 };
