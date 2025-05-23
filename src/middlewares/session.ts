@@ -2,15 +2,6 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import { config } from "../config";
 
-declare module "express-session" {
-  interface SessionData {
-    user: {
-      uuid: string;
-      username: string;
-    };
-  }
-}
-
 export default session({
   name: "sessionId",
   secret: config.sessionSecret,
