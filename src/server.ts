@@ -11,36 +11,17 @@ import router from "./routes";
 
 const app = express();
 const server = http.createServer(app);
-
-const corsOptions: cors.CorsOptions = {
-  origin: (
-    origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void
-  ) => {
-    const allowedOrigins: string[] = [
-      "http://localhost:3001",
-      config.prodFrontendUrl,
-    ];
-
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`Blocked by CORS: ${origin}`);
-      callback(null, false);
-    }
-  },
+const corsOptions = {
+  origin: "http://localhost:3001",
   credentials: true,
-  optionsSuccessStatus: 200,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
 async function startServer() {
   try {
     await connectDB();
-    app.use(cors(corsOptions));
     app.use(cookieParser());
     app.use(sessionMiddleware);
+    app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
@@ -51,12 +32,6 @@ async function startServer() {
     io.engine.use(sessionMiddleware);
     router(app);
     socketConfig(io);
-
-    app.use((req, res, next) => {
-      console.log("Request Method:", req.method);
-      console.log("Request Headers:", req.headers);
-      next();
-    });
 
     server.listen(config.port, () => {
       console.log(`Server listening on port ${config.port}`);
