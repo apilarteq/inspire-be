@@ -37,10 +37,9 @@ const corsOptions: cors.CorsOptions = {
 async function startServer() {
   try {
     await connectDB();
+    app.use(cors(corsOptions));
     app.use(cookieParser());
     app.use(sessionMiddleware);
-    app.use(cors(corsOptions));
-    app.options("*", cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
@@ -51,6 +50,12 @@ async function startServer() {
     io.engine.use(sessionMiddleware);
     router(app);
     socketConfig(io);
+
+    app.use((req, res, next) => {
+      console.log("Request Method:", req.method);
+      console.log("Request Headers:", req.headers);
+      next();
+    });
 
     server.listen(config.port, () => {
       console.log(`Server listening on port ${config.port}`);
