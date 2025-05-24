@@ -11,9 +11,27 @@ import router from "./routes";
 
 const app = express();
 const server = http.createServer(app);
-const corsOptions = {
-  origin: ["http://localhost:3001", config.prodFrontendUrl],
+
+const corsOptions: cors.CorsOptions = {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) => {
+    const allowedOrigins: string[] = [
+      "http://localhost:3001",
+      config.prodFrontendUrl,
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
+  optionsSuccessStatus: 200,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 };
 
 async function startServer() {
@@ -22,6 +40,7 @@ async function startServer() {
     app.use(cookieParser());
     app.use(sessionMiddleware);
     app.use(cors(corsOptions));
+    app.options("*", cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
