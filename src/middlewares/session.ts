@@ -2,6 +2,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import { config } from "../config";
 
+console.log(process.env.NODE_ENV);
+
 export default session({
   name: "sessionId",
   secret: config.sessionSecret,
