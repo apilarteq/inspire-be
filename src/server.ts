@@ -9,14 +9,18 @@ import sessionMiddleware from "./middlewares/session";
 import socketConfig from "./sockets/config";
 import router from "./routes";
 
+const allowedOrigins = ["http://localhost:3001", config.prodFrontendUrl];
+
 const app = express();
 const server = http.createServer(app);
 const corsOptions = {
-  origin: [
-    "http://localhost:3001",
-    "https://localhost:3001",
-    config.prodFrontendUrl,
-  ],
+  origin: function (origin: string | undefined, callback: Function) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 
