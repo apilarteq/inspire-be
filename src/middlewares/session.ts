@@ -1,8 +1,13 @@
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { config } from "../config";
+import { UserSession } from "../types/user";
 
-console.log(process.env.NODE_ENV);
+declare module "express-session" {
+  interface SessionData {
+    user: UserSession;
+  }
+}
 
 export default session({
   name: "sessionId",
@@ -12,11 +17,11 @@ export default session({
   cookie: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   },
   store: MongoStore.create({
     mongoUrl: config.mongoUri,
-    ttl: 30 * 24 * 60 * 60 * 1000, // Se eliminara en 30 días en segundos
+    ttl: 30 * 24 * 60 * 60 * 1000,
     autoRemove: "interval",
     autoRemoveInterval: 1,
   }),
