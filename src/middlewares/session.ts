@@ -9,7 +9,9 @@ declare module "express-session" {
   }
 }
 
-export default session({
+console.log("Environment", process.env.NODE_ENV);
+
+const sessionMiddleware = session({
   name: "sessionId",
   secret: config.sessionSecret,
   resave: false,
@@ -26,3 +28,5 @@ export default session({
     autoRemoveInterval: 1,
   }),
 });
+
+export default sessionMiddleware;
