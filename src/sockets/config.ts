@@ -1,6 +1,14 @@
 import type { Socket } from "socket.io";
 import { Server as SocketServer } from "socket.io";
+import { Session, SessionData } from "express-session";
 import { messageHandler } from "./handlers/message-handler";
+
+declare module "http" {
+  interface IncomingMessage {
+    sessionID: string;
+    session: Session & Partial<SessionData>;
+  }
+}
 
 export default function socketConfig(io: SocketServer) {
   // io.use((socket, next) => {
