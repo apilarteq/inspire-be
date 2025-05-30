@@ -12,7 +12,11 @@ import router from "./routes";
 const app = express();
 const server = http.createServer(app);
 const corsOptions = {
-  origin: ["http://localhost:3001", config.prodFrontendUrl],
+  origin: [
+    "http://localhost:3001",
+    "https://localhost:3001",
+    config.prodFrontendUrl,
+  ],
   credentials: true,
 };
 
