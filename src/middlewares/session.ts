@@ -15,13 +15,13 @@ export default session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     httpOnly: true,
-    sameSite: "none",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   },
   store: MongoStore.create({
     mongoUrl: config.mongoUri,
-    ttl: 30 * 24 * 60 * 60 * 1000, // Se eliminara en 30 días en segundos
+    ttl: 30 * 24 * 60 * 60 * 1000,
     autoRemove: "interval",
     autoRemoveInterval: 1,
   }),
