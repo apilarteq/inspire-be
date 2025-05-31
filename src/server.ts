@@ -27,9 +27,9 @@ const corsOptions = {
 async function startServer() {
   try {
     await connectDB();
+    app.use(cors(corsOptions));
     app.use(cookieParser());
     app.use(sessionMiddleware);
-    app.use(cors(corsOptions));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.set("trust proxy", 1);
