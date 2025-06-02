@@ -18,6 +18,7 @@ const sessionMiddleware = session({
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    partitioned: process.env.NODE_ENV === "production",
   },
   store: MongoStore.create({
     mongoUrl: config.mongoUri,
