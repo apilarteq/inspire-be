@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import { config } from "./config";
@@ -9,30 +9,27 @@ import sessionMiddleware from "./middlewares/session";
 import socketConfig from "./sockets/config";
 import router from "./routes";
 
-const allowedOrigins = ["http://localhost:3001", config.prodFrontendUrl];
+console.log("Environment", process.env.NODE_ENV);
 
 const app = express();
 const server = http.createServer(app);
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: Function) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+const corsOptions: CorsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? config.prodFrontendUrl
+      : "http://localhost:3001",
   credentials: true,
 };
 
 async function startServer() {
   try {
     await connectDB();
+    app.set("trust proxy", 1);
     app.use(cors(corsOptions));
     app.use(cookieParser());
     app.use(sessionMiddleware);
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.set("trust proxy", 1);
 
     const io = new Server(server, {
       cors: corsOptions,

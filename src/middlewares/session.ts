@@ -9,8 +9,6 @@ declare module "express-session" {
   }
 }
 
-console.log("Environment", process.env.NODE_ENV);
-
 const sessionMiddleware = session({
   name: "sessionId",
   secret: config.sessionSecret,
@@ -20,6 +18,8 @@ const sessionMiddleware = session({
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    domain: config.backendDomain,
+    path: "/",
   },
   store: MongoStore.create({
     mongoUrl: config.mongoUri,

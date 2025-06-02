@@ -7,4 +7,5 @@ export const config = {
   sessionSecret: process.env.SESSION_SECRET || "",
   mongoUri: process.env.MONGODB_URI || "",
   prodFrontendUrl: process.env.PROD_FRONTEND_URL || "",
+  backendDomain: process.env.BACKEND_DOMAIN || "",
 };
