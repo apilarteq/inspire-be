@@ -6,10 +6,9 @@ import cookieParser from "cookie-parser";
 import { config } from "./config";
 import connectDB from "./database";
 import sessionMiddleware from "./middlewares/session";
+import setHeaders from "./middlewares/set-headers";
 import socketConfig from "./sockets/config";
 import router from "./routes";
-
-console.log("Environment", process.env.NODE_ENV);
 
 const app = express();
 const server = http.createServer(app);
@@ -26,6 +25,7 @@ const corsOptions: CorsOptions = {
 async function startServer() {
   try {
     await connectDB();
+    app.use(setHeaders);
     app.set("trust proxy", 1);
     app.use(cors(corsOptions));
     app.use(cookieParser());
