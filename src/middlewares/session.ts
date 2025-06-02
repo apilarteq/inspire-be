@@ -16,7 +16,7 @@ const sessionMiddleware = session({
   saveUninitialized: false,
   cookie: {
     secure: process.env.NODE_ENV === "production",
-    httpOnly: false,
+    httpOnly: true,
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   },
   store: MongoStore.create({
