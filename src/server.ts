@@ -19,6 +19,8 @@ const corsOptions: CorsOptions = {
       ? config.prodFrontendUrl
       : "http://localhost:3001",
   credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 async function startServer() {
